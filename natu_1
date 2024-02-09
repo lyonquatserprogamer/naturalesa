@@ -1,0 +1,49 @@
+import discord
+from discord.ext import commands
+import requests
+import random
+
+intents = discord.Intents.default()
+intents.messages = True
+bot = commands.Bot(command_prefix='/', intents=intents)
+
+positive_messages = [
+    "¡Hola! ¿Sabías que reciclar ayuda a cuidar nuestro planeta? 🌍",
+    "Recuerda apagar las luces cuando no las necesitas para ahorrar energía. 💡",
+    "Cada pequeño gesto cuenta. ¡Hagamos juntos del mundo un lugar mejor! 🌱",
+    "El reciclaje es como un superpoder para cuidar la Tierra. 💚",
+]
+
+environment_challenges = [
+    "Hoy, intenta reducir el uso de plástico. Usa botellas reutilizables y bolsas de tela. 🌿",
+    "¿Te animas a plantar un árbol en tu comunidad? 🌳",
+    "Investiga sobre el compostaje y comienza tu propio pequeño compost en casa. 🍂",
+    "Haz un dibujo o poema sobre la naturaleza y compártelo con tus amigos. 🎨",
+]
+
+@bot.event
+async def on_ready():
+    print(f'Bot listo como {bot.user}')
+
+@bot.command()
+async def motivar(ctx):
+    message = random.choice(positive_messages)
+    await ctx.send(message)
+
+@bot.command()
+async def desafio(ctx):
+    challenge = random.choice(environment_challenges)
+    await ctx.send(f"¡Desafío ambiental del día! {challenge}")
+
+@bot.command()
+async def imagen(ctx):
+    """Genera una imagen aleatoria relacionada con el medio ambiente."""
+    image_url = get_environment_image_url()
+    await ctx.send(image_url)
+
+def get_environment_image_url():
+    url = 'https://picsum.photos/800/600/?category=nature'
+    return url
+
+# Reemplaza "TOKEN_DEL_BOT" con el token real de tu bot
+bot.run("TOKEN_DEL_BOT")
